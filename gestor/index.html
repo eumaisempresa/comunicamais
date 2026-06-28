@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestor | Comunica⁺</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark-0: #030912; --dark-1: #060E18; --dark-2: #0A1624; --dark-3: #0E1E30;
+    --aqua: #4A9BC4; --aqua-lt: #6DB8E0;
+    --gold: #C4A265; --gold-lt: #D4B87A;
+    --white: #F0F4F8; --muted: #7A90A8; --border: rgba(74,155,196,0.15);
+    --success: #4AC47A; --danger: #E05555; --warn: #E0A355;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark-1); color: var(--white); min-height: 100vh; }
+
+  /* LOGIN */
+  #loginScreen {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .login-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: .25rem; }
+  .login-logo span { color: var(--gold); }
+  .login-sub-logo { color: var(--muted); font-size: .8rem; margin-bottom: 2.5rem; letter-spacing: .05em; text-transform: uppercase; }
+  .login-card { background: var(--dark-2); border: 1px solid rgba(196,162,101,0.2); border-radius: 16px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; }
+  .login-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; margin-bottom: .35rem; }
+  .login-card p { color: var(--muted); font-size: .88rem; margin-bottom: 2rem; }
+  .fg { margin-bottom: 1.25rem; }
+  label { display: block; font-size: .78rem; font-weight: 600; color: var(--muted); margin-bottom: .4rem; letter-spacing: .04em; text-transform: uppercase; }
+  input, select { width: 100%; background: var(--dark-3); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Inter', sans-serif; font-size: .95rem; padding: .7rem 1rem; outline: none; transition: border-color .2s; }
+  input:focus, select:focus { border-color: var(--gold); }
+  input::placeholder { color: var(--muted); }
+  .btn-login { width: 100%; padding: .85rem; background: var(--gold); color: var(--dark-1); font-weight: 700; font-size: .95rem; border: none; border-radius: 8px; cursor: pointer; transition: background .2s; }
+  .btn-login:hover { background: var(--gold-lt); }
+  .login-err { color: var(--danger); font-size: .85rem; margin-top: .75rem; display: none; }
+  .login-err.show { display: block; }
+
+  /* APP */
+  #appScreen { display: none; }
+
+  /* SIDEBAR */
+  .layout { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 240px; flex-shrink: 0;
+    background: var(--dark-2); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh;
+  }
+  .sidebar-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; padding: .5rem .75rem; margin-bottom: 2rem; }
+  .sidebar-logo span { color: var(--gold); }
+  .nav-item {
+    display: flex; align-items: center; gap: .65rem;
+    padding: .6rem .75rem; border-radius: 8px;
+    color: var(--muted); font-size: .875rem; font-weight: 500;
+    cursor: pointer; transition: all .2s; margin-bottom: .25rem;
+    text-decoration: none;
+  }
+  .nav-item:hover, .nav-item.active { background: rgba(196,162,101,0.1); color: var(--gold); }
+  .nav-item .ico { font-size: 1rem; }
+  .sidebar-bottom { margin-top: auto; }
+  .btn-logout { width: 100%; padding: .6rem; background: none; border: 1px solid var(--border); color: var(--muted); font-size: .85rem; border-radius: 8px; cursor: pointer; transition: color .2s; }
+  .btn-logout:hover { color: var(--danger); }
+
+  /* CONTENT */
+  .content { flex: 1; overflow: hidden; }
+  .topbar { border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
+  .topbar-badge { font-size: .75rem; background: rgba(196,162,101,0.15); color: var(--gold); padding: .2rem .6rem; border-radius: 4px; font-weight: 600; }
+
+  .inner { padding: 2rem; }
+
+  /* STATS */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
+  .stat-card { background: var(--dark-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
+  .stat-val { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
+  .stat-lbl { font-size: .78rem; color: var(--muted); margin-top: .25rem; }
+
+  /* CLIENTES */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: .75rem; }
+  .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; }
+  .search-input { background: var(--dark-3); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Inter', sans-serif; font-size: .875rem; padding: .5rem .9rem; outline: none; width: 220px; }
+  .search-input:focus { border-color: var(--gold); }
+
+  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; }
+  thead tr { background: var(--dark-3); }
+  th { padding: .75rem 1rem; text-align: left; font-size: .75rem; font-weight: 600; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
+  td { padding: .85rem 1rem; border-top: 1px solid var(--border); font-size: .875rem; white-space: nowrap; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .status-badge {
+    display: inline-flex; align-items: center; gap: .3rem;
+    font-size: .72rem; font-weight: 600; padding: .2rem .6rem; border-radius: 4px;
+  }
+  .status-badge.ativo { background: rgba(74,196,122,0.15); color: var(--success); }
+  .status-badge.inativo { background: rgba(224,85,85,0.15); color: var(--danger); }
+  .status-badge.suspenso { background: rgba(224,163,85,0.15); color: var(--warn); }
+
+  .plano-badge {
+    font-size: .72rem; font-weight: 600; padding: .2rem .55rem; border-radius: 4px;
+    background: rgba(196,162,101,0.12); color: var(--gold);
+  }
+
+  .btn-action {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-size: .78rem;
+    padding: .25rem .6rem; border-radius: 5px;
+    cursor: pointer; transition: all .2s; margin-right: .25rem;
+  }
+  .btn-action:hover { color: var(--aqua); border-color: var(--aqua); }
+  .btn-action.danger:hover { color: var(--danger); border-color: var(--danger); }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(3,9,18,0.85); backdrop-filter: blur(4px);
+    z-index: 200; align-items: center; justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    width: 100%; max-width: 480px;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem; }
+  .modal-row { display: flex; justify-content: space-between; align-items: center; padding: .75rem 0; border-bottom: 1px solid var(--border); }
+  .modal-row:last-of-type { border-bottom: none; }
+  .modal-row label { font-size: .78rem; color: var(--muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
+  .modal-row span { font-size: .88rem; }
+  .modal-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
+  .btn-save { flex: 1; padding: .7rem; background: var(--gold); color: var(--dark-1); font-weight: 700; font-size: .9rem; border: none; border-radius: 8px; cursor: pointer; transition: background .2s; }
+  .btn-save:hover { background: var(--gold-lt); }
+  .btn-cancel { flex: 1; padding: .7rem; background: none; border: 1px solid var(--border); color: var(--muted); font-size: .9rem; border-radius: 8px; cursor: pointer; transition: color .2s; }
+  .btn-cancel:hover { color: var(--danger); }
+
+  @media (max-width: 700px) {
+    .sidebar { display: none; }
+    .content { width: 100%; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN GESTOR -->
+<div id="loginScreen">
+  <div class="login-logo">Gestor<span>⁺</span></div>
+  <div class="login-sub-logo">Painel de administração · Grupo EU⁺</div>
+  <div class="login-card">
+    <h2>Acesso restrito</h2>
+    <p>Área exclusiva para gestão de clientes e planos.</p>
+    <div class="fg">
+      <label>Senha de gestor</label>
+      <input type="password" id="gestorSenha" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <div class="login-err" id="gestorErr">⚠ Senha incorreta.</div>
+    <button class="btn-login" onclick="acessarGestor()">Acessar</button>
+  </div>
+</div>
+
+<!-- APP GESTOR -->
+<div id="appScreen">
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">Comunica<span>⁺</span></div>
+      <div class="nav-item active" onclick="irPara('clientes')"><span class="ico">👥</span> Clientes</div>
+      <div class="nav-item" onclick="irPara('historico')"><span class="ico">📋</span> Histórico</div>
+      <a class="nav-item" href="../" target="_blank"><span class="ico">🌐</span> Ver site</a>
+      <div class="sidebar-bottom">
+        <button class="btn-logout" onclick="logout()">Sair</button>
+      </div>
+    </aside>
+
+    <div class="content">
+      <div class="topbar">
+        <h1 id="pageTitle">Clientes</h1>
+        <span class="topbar-badge">Gestor · Bruno Vieira</span>
+      </div>
+
+      <!-- CLIENTES -->
+      <div class="inner" id="viewClientes">
+        <div class="stats-row" id="statsRow">
+          <div class="stat-card"><div class="stat-val" id="statTotal">—</div><div class="stat-lbl">Total clientes</div></div>
+          <div class="stat-card"><div class="stat-val" id="statAtivos">—</div><div class="stat-lbl">Ativos</div></div>
+          <div class="stat-card"><div class="stat-val" id="statTrial">—</div><div class="stat-lbl">Em trial</div></div>
+          <div class="stat-card"><div class="stat-val" id="statPremium">—</div><div class="stat-lbl">Premium</div></div>
+        </div>
+
+        <div class="section-header">
+          <h2>Lista de clientes</h2>
+          <input type="text" class="search-input" placeholder="Buscar cliente..." oninput="filtrarClientes(this.value)">
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Nome</th><th>WhatsApp</th><th>E-mail</th>
+                <th>Usuário</th><th>Plano</th><th>Trial Fim</th><th>Status</th><th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaClientes"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- HISTÓRICO -->
+      <div class="inner" id="viewHistorico" style="display:none">
+        <p style="color:var(--muted)">Em breve: listagem completa de gerações por cliente.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR CLIENTE -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>Editar cliente</h3>
+    <div class="modal-row"><label>ID</label><span id="mId">—</span></div>
+    <div class="modal-row"><label>Nome</label><span id="mNome">—</span></div>
+    <div class="modal-row"><label>E-mail</label><span id="mEmail">—</span></div>
+    <div class="modal-row">
+      <label>Plano</label>
+      <select id="mPlano" style="width:auto;padding:.35rem .6rem">
+        <option>Free</option>
+        <option>Básico</option>
+        <option>Premium Trial</option>
+        <option>Premium</option>
+        <option>Personalizado</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <label>Status</label>
+      <select id="mStatus" style="width:auto;padding:.35rem .6rem">
+        <option value="ativo">Ativo</option>
+        <option value="inativo">Inativo</option>
+        <option value="suspenso">Suspenso</option>
+      </select>
+    </div>
+    <div class="modal-row">
+      <label>Trial Fim</label>
+      <input type="text" id="mTrialFim" style="width:130px;padding:.35rem .6rem" placeholder="dd/mm/aaaa">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+      <button class="btn-save" onclick="salvarCliente()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/SEU_ID_AQUI/exec";
+  // Senha local do gestor — troque aqui (em produção, use o Apps Script para validar)
+  const SENHA_GESTOR = "bruno5057";
+
+  let clientes = [];
+  let clienteEditando = null;
+
+  function acessarGestor() {
+    const senha = document.getElementById('gestorSenha').value;
+    const err = document.getElementById('gestorErr');
+    if (senha !== SENHA_GESTOR) { err.classList.add('show'); return; }
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+    carregarClientes();
+  }
+
+  function logout() { location.reload(); }
+
+  function irPara(view) {
+    document.getElementById('viewClientes').style.display = view === 'clientes' ? 'block' : 'none';
+    document.getElementById('viewHistorico').style.display = view === 'historico' ? 'block' : 'none';
+    document.getElementById('pageTitle').textContent = view === 'clientes' ? 'Clientes' : 'Histórico';
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+  }
+
+  async function carregarClientes() {
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ acao: 'listarClientes' })
+      });
+      clientes = await res.json();
+    } catch (e) {
+      // DEMO
+      clientes = [
+        { id:'maisvida27453', nome:'Bruno', whatsapp:'27997161826', email:'brunorsvieira@gmail.com', profissao:'Professor', usuario:'bruno504', plano:'básico', trialIni:'28/06/2026', trialFim:'05/07/2026', status:'ativo' }
+      ];
+    }
+    renderizarStats();
+    renderizarTabela(clientes);
+  }
+
+  function renderizarStats() {
+    document.getElementById('statTotal').textContent = clientes.length;
+    document.getElementById('statAtivos').textContent = clientes.filter(c => c.status === 'ativo').length;
+    document.getElementById('statTrial').textContent = clientes.filter(c => c.plano.toLowerCase().includes('trial')).length;
+    document.getElementById('statPremium').textContent = clientes.filter(c => c.plano.toLowerCase() === 'premium').length;
+  }
+
+  function renderizarTabela(lista) {
+    const tbody = document.getElementById('tabelaClientes');
+    tbody.innerHTML = '';
+    lista.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td style="color:var(--muted);font-size:.8rem">${c.id}</td>
+        <td style="font-weight:500">${c.nome}</td>
+        <td>${c.whatsapp}</td>
+        <td style="color:var(--muted)">${c.email}</td>
+        <td style="font-family:monospace;color:var(--aqua)">${c.usuario}</td>
+        <td><span class="plano-badge">${c.plano}</span></td>
+        <td style="color:var(--muted)">${c.trialFim || '—'}</td>
+        <td><span class="status-badge ${c.status}">${c.status}</span></td>
+        <td>
+          <button class="btn-action" onclick='editarCliente(${JSON.stringify(c)})'>Editar</button>
+          <button class="btn-action" onclick="abrirWhatsApp('${c.whatsapp}')">WPP</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function filtrarClientes(q) {
+    const filtrado = clientes.filter(c =>
+      c.nome.toLowerCase().includes(q.toLowerCase()) ||
+      c.email.toLowerCase().includes(q.toLowerCase()) ||
+      c.id.toLowerCase().includes(q.toLowerCase())
+    );
+    renderizarTabela(filtrado);
+  }
+
+  function editarCliente(c) {
+    clienteEditando = c;
+    document.getElementById('mId').textContent = c.id;
+    document.getElementById('mNome').textContent = c.nome;
+    document.getElementById('mEmail').textContent = c.email;
+    document.getElementById('mPlano').value = c.plano;
+    document.getElementById('mStatus').value = c.status;
+    document.getElementById('mTrialFim').value = c.trialFim || '';
+    document.getElementById('modalOverlay').classList.add('show');
+  }
+
+  function fecharModal() {
+    document.getElementById('modalOverlay').classList.remove('show');
+    clienteEditando = null;
+  }
+
+  async function salvarCliente() {
+    if (!clienteEditando) return;
+    const novoPlano = document.getElementById('mPlano').value;
+    const novoStatus = document.getElementById('mStatus').value;
+    const novoFim = document.getElementById('mTrialFim').value;
+
+    try {
+      await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          acao: 'atualizarCliente',
+          idCliente: clienteEditando.id,
+          plano: novoPlano, status: novoStatus, trialFim: novoFim
+        })
+      });
+    } catch (e) { /* DEMO: apenas atualiza local */ }
+
+    // Atualizar local
+    const idx = clientes.findIndex(c => c.id === clienteEditando.id);
+    if (idx >= 0) {
+      clientes[idx].plano = novoPlano;
+      clientes[idx].status = novoStatus;
+      clientes[idx].trialFim = novoFim;
+    }
+    fecharModal();
+    renderizarStats();
+    renderizarTabela(clientes);
+  }
+
+  function abrirWhatsApp(num) {
+    window.open(`https://wa.me/55${num}`, '_blank');
+  }
+
+  document.getElementById('gestorSenha').addEventListener('keydown', e => {
+    if (e.key === 'Enter') acessarGestor();
+  });
+</script>
+</body>
+</html>
