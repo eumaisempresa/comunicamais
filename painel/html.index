@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel | Comunica⁺</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark-0: #030912; --dark-1: #060E18; --dark-2: #0A1624; --dark-3: #0E1E30;
+    --aqua: #4A9BC4; --aqua-lt: #6DB8E0; --aqua-dk: #2E7BA8;
+    --white: #F0F4F8; --muted: #7A90A8; --border: rgba(74,155,196,0.15);
+    --success: #4AC47A; --danger: #E05555;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--dark-1); color: var(--white); min-height: 100vh; }
+
+  /* LOGIN */
+  #loginScreen {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .login-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.6rem; font-weight: 700; margin-bottom: 2.5rem;
+  }
+  .login-logo span { color: var(--aqua); }
+  .login-card {
+    background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2.5rem 2rem;
+    width: 100%; max-width: 400px;
+  }
+  .login-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.35rem; margin-bottom: .35rem;
+  }
+  .login-card p { color: var(--muted); font-size: .88rem; margin-bottom: 2rem; }
+  .fg { margin-bottom: 1.25rem; }
+  label { display: block; font-size: .78rem; font-weight: 600; color: var(--muted); margin-bottom: .4rem; letter-spacing: .04em; text-transform: uppercase; }
+  input {
+    width: 100%; background: var(--dark-3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--white);
+    font-family: 'Inter', sans-serif; font-size: .95rem;
+    padding: .7rem 1rem; outline: none; transition: border-color .2s;
+  }
+  input:focus { border-color: var(--aqua); }
+  input::placeholder { color: var(--muted); }
+  .btn-login {
+    width: 100%; padding: .85rem;
+    background: var(--aqua); color: var(--dark-1);
+    font-weight: 700; font-size: .95rem;
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: background .2s; margin-top: .25rem;
+  }
+  .btn-login:hover { background: var(--aqua-lt); }
+  .login-err { color: var(--danger); font-size: .85rem; margin-top: .75rem; display: none; }
+  .login-err.show { display: block; }
+  .login-footer { text-align: center; margin-top: 1.25rem; font-size: .83rem; color: var(--muted); }
+  .login-footer a { color: var(--aqua); text-decoration: none; }
+
+  /* APP */
+  #appScreen { display: none; }
+
+  /* TOPBAR */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(6,14,24,0.95); backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 60px;
+  }
+  .topbar-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; }
+  .topbar-logo span { color: var(--aqua); }
+  .topbar-right { display: flex; align-items: center; gap: 1.25rem; }
+  .user-chip {
+    display: flex; align-items: center; gap: .5rem;
+    background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 100px; padding: .3rem .75rem .3rem .4rem;
+    font-size: .82rem;
+  }
+  .user-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--aqua); color: var(--dark-1);
+    font-weight: 700; font-size: .8rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .plan-tag {
+    font-size: .72rem; font-weight: 600;
+    background: rgba(74,155,196,0.15); color: var(--aqua);
+    padding: .2rem .5rem; border-radius: 4px;
+  }
+  .btn-logout {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-size: .8rem;
+    padding: .3rem .75rem; border-radius: 6px;
+    cursor: pointer; transition: color .2s;
+  }
+  .btn-logout:hover { color: var(--danger); }
+
+  /* MAIN */
+  .main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 5%; }
+
+  .gen-card {
+    background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .gen-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.2rem; margin-bottom: .35rem;
+  }
+  .gen-card p { color: var(--muted); font-size: .875rem; margin-bottom: 1.5rem; }
+  .input-row { display: flex; gap: .75rem; }
+  .tema-input {
+    flex: 1; background: var(--dark-3); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--white);
+    font-family: 'Inter', sans-serif; font-size: .95rem;
+    padding: .75rem 1rem; outline: none; transition: border-color .2s;
+  }
+  .tema-input:focus { border-color: var(--aqua); }
+  .tema-input::placeholder { color: var(--muted); }
+  .btn-gerar {
+    background: var(--aqua); color: var(--dark-1);
+    font-weight: 700; font-size: .95rem;
+    padding: .75rem 1.75rem; border: none; border-radius: 8px;
+    cursor: pointer; white-space: nowrap; transition: background .2s;
+  }
+  .btn-gerar:hover:not(:disabled) { background: var(--aqua-lt); }
+  .btn-gerar:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* CARDS DE RESULTADO */
+  #resultado { display: none; }
+  .result-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1.5rem; flex-wrap: wrap; gap: .75rem;
+  }
+  .result-header h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; }
+  .btn-wpp {
+    display: flex; align-items: center; gap: .5rem;
+    background: #25D366; color: #fff;
+    font-weight: 700; font-size: .875rem;
+    padding: .5rem 1.25rem; border: none; border-radius: 8px;
+    cursor: pointer; text-decoration: none; transition: opacity .2s;
+  }
+  .btn-wpp:hover { opacity: .85; }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+  .post-card {
+    background: var(--dark-3); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem;
+  }
+  .post-card-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: .75rem;
+  }
+  .canal-label {
+    font-size: .72rem; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: var(--aqua);
+    background: rgba(74,155,196,0.12);
+    padding: .2rem .6rem; border-radius: 4px;
+  }
+  .btn-copiar {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-size: .78rem;
+    padding: .25rem .6rem; border-radius: 5px;
+    cursor: pointer; transition: color .2s, border-color .2s;
+  }
+  .btn-copiar:hover { color: var(--aqua); border-color: var(--aqua); }
+  .post-text {
+    font-size: .9rem; line-height: 1.65; color: #CBD5E1;
+    white-space: pre-wrap; min-height: 80px;
+  }
+
+  /* LOADING */
+  .loading-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(3,9,18,0.85); backdrop-filter: blur(4px);
+    z-index: 200; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1rem;
+  }
+  .loading-overlay.show { display: flex; }
+  .pulse-logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem; font-weight: 700;
+    color: var(--aqua); animation: pulse 1.4s ease-in-out infinite;
+  }
+  .loading-overlay p { color: var(--muted); font-size: .9rem; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+
+  /* HISTÓRICO */
+  .hist-section { margin-top: 1rem; }
+  .hist-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem; margin-bottom: 1.25rem; color: var(--muted);
+    border-bottom: 1px solid var(--border); padding-bottom: .75rem;
+  }
+  .hist-item {
+    background: var(--dark-2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 1rem 1.25rem;
+    margin-bottom: .75rem;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; transition: border-color .2s;
+  }
+  .hist-item:hover { border-color: var(--aqua-dk); }
+  .hist-tema { font-size: .9rem; font-weight: 500; }
+  .hist-data { font-size: .78rem; color: var(--muted); }
+
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(0,0,0,.25); border-top-color: var(--dark-1); border-radius: 50%; animation: spin .6s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="pulse-logo">⁺</div>
+  <p id="loadingMsg">Gerando seus 9 conteúdos...</p>
+</div>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-logo">Comunica<span>⁺</span></div>
+  <div class="login-card">
+    <h2>Entrar no painel</h2>
+    <p>Use as credenciais enviadas por e-mail no cadastro.</p>
+    <div class="fg">
+      <label>Usuário</label>
+      <input type="text" id="loginUser" placeholder="seuusuario123" autocomplete="username">
+    </div>
+    <div class="fg">
+      <label>Senha</label>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <div class="login-err" id="loginErr">⚠ Usuário ou senha inválidos.</div>
+    <button class="btn-login" onclick="fazerLogin()">Entrar</button>
+    <div class="login-footer">Não tem conta? <a href="../cadastro/">Criar gratuitamente</a></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appScreen">
+  <div class="topbar">
+    <div class="topbar-logo">Comunica<span>⁺</span></div>
+    <div class="topbar-right">
+      <div class="user-chip">
+        <div class="user-avatar" id="userAvatar">B</div>
+        <span id="userNome">—</span>
+        <span class="plan-tag" id="userPlano">—</span>
+      </div>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="gen-card">
+      <h2>Gerar conteúdo</h2>
+      <p>Digite seu Tema Matriz e a IA ramifica em 9 linguagens para seus canais.</p>
+      <div class="input-row">
+        <input type="text" class="tema-input" id="temaInput"
+               placeholder="Ex: Como superar o medo de começar..."
+               onkeydown="if(event.key==='Enter') gerarConteudo()">
+        <button class="btn-gerar" id="btnGerar" onclick="gerarConteudo()">Gerar ⚡</button>
+      </div>
+    </div>
+
+    <div id="resultado">
+      <div class="result-header">
+        <h3 id="resultTema">—</h3>
+        <button class="btn-wpp" onclick="enviarWhatsApp()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Enviar tudo no WhatsApp
+        </button>
+      </div>
+      <div class="cards-grid" id="cardsGrid"></div>
+    </div>
+
+    <div class="hist-section" id="histSection" style="display:none">
+      <div class="hist-title">Histórico recente</div>
+      <div id="histList"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/SEU_ID_AQUI/exec";
+
+  const CANAIS = [
+    { key: 'ln_bruno',      label: 'LN Bruno' },
+    { key: 'ln_empresa',    label: 'LN Empresa' },
+    { key: 'ig_empresa',    label: 'IG Empresa' },
+    { key: 'ig_vida',       label: 'IG Vida' },
+    { key: 'ig_missao',     label: 'IG Missão' },
+    { key: 'ig_empreender', label: 'IG Empreender' },
+    { key: 'ig_gestor',     label: 'IG Gestor' },
+    { key: 'ig_executivo',  label: 'IG Executivo' },
+    { key: 'ig_negocio',    label: 'IG Negócio' },
+  ];
+
+  let sessao = null;
+  let ultimoConteudo = null;
+
+  // Verificar sessão salva
+  window.onload = () => {
+    const saved = sessionStorage.getItem('cp_sessao');
+    if (saved) {
+      sessao = JSON.parse(saved);
+      mostrarApp();
+    }
+  };
+
+  async function fazerLogin() {
+    const usuario = document.getElementById('loginUser').value.trim();
+    const senha   = document.getElementById('loginPass').value.trim();
+    const err = document.getElementById('loginErr');
+    err.classList.remove('show');
+
+    if (!usuario || !senha) { err.classList.add('show'); return; }
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ acao: 'autenticar', usuario, senha })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        sessao = data;
+        sessionStorage.setItem('cp_sessao', JSON.stringify(sessao));
+        mostrarApp();
+      } else {
+        err.textContent = '⚠ ' + (data.msg || 'Credenciais inválidas.');
+        err.classList.add('show');
+      }
+    } catch (e) {
+      // MODO DEMO: login com qualquer credencial
+      sessao = {
+        ok: true, idCliente: 'demo001',
+        nome: usuario, email: 'demo@eu.com',
+        plano: 'Premium Trial'
+      };
+      sessionStorage.setItem('cp_sessao', JSON.stringify(sessao));
+      mostrarApp();
+    }
+  }
+
+  function mostrarApp() {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+
+    const inicial = sessao.nome ? sessao.nome[0].toUpperCase() : 'U';
+    document.getElementById('userAvatar').textContent = inicial;
+    document.getElementById('userNome').textContent = sessao.nome || 'Usuário';
+    document.getElementById('userPlano').textContent = sessao.plano || 'Free';
+  }
+
+  function logout() {
+    sessionStorage.removeItem('cp_sessao');
+    location.reload();
+  }
+
+  async function gerarConteudo() {
+    const tema = document.getElementById('temaInput').value.trim();
+    if (!tema) return;
+
+    const btn = document.getElementById('btnGerar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>';
+    document.getElementById('loadingOverlay').classList.add('show');
+
+    const msgs = [
+      'Ativando persona EU⁺...',
+      'Ramificando em 9 linguagens...',
+      'Arquivando no seu histórico...',
+      'Quase pronto...'
+    ];
+    let mi = 0;
+    const interval = setInterval(() => {
+      document.getElementById('loadingMsg').textContent = msgs[mi % msgs.length];
+      mi++;
+    }, 1800);
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ acao: 'gerar', tema, idCliente: sessao.idCliente })
+      });
+      const conteudo = await res.json();
+      renderizarCards(tema, conteudo);
+    } catch (e) {
+      // DEMO: gerar conteúdo simulado
+      const demo = {};
+      CANAIS.forEach(c => {
+        demo[c.key] = `[${c.label}] Conteúdo gerado para o tema: "${tema}". Este é um texto de demonstração com a persona EU⁺ ativa. Em produção, será gerado pela API Gemini com sua chave configurada.`;
+      });
+      renderizarCards(tema, demo);
+    } finally {
+      clearInterval(interval);
+      document.getElementById('loadingOverlay').classList.remove('show');
+      btn.disabled = false;
+      btn.textContent = 'Gerar ⚡';
+    }
+  }
+
+  function renderizarCards(tema, conteudo) {
+    ultimoConteudo = conteudo;
+    document.getElementById('resultTema').textContent = `"${tema}"`;
+    const grid = document.getElementById('cardsGrid');
+    grid.innerHTML = '';
+
+    CANAIS.forEach(canal => {
+      const texto = conteudo[canal.key] || '—';
+      const card = document.createElement('div');
+      card.className = 'post-card';
+      card.innerHTML = `
+        <div class="post-card-header">
+          <span class="canal-label">${canal.label}</span>
+          <button class="btn-copiar" onclick="copiarTexto(this, \`${escapar(texto)}\`)">Copiar</button>
+        </div>
+        <div class="post-text">${texto}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    document.getElementById('resultado').style.display = 'block';
+    document.getElementById('resultado').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function copiarTexto(btn, texto) {
+    navigator.clipboard.writeText(texto);
+    btn.textContent = '✓ Copiado';
+    setTimeout(() => btn.textContent = 'Copiar', 1800);
+  }
+
+  function escapar(s) {
+    return s.replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  }
+
+  function enviarWhatsApp() {
+    if (!ultimoConteudo) return;
+    let msg = `*Comunica⁺ | Grupo EU⁺*\n\n`;
+    CANAIS.forEach(c => {
+      msg += `*[${c.label}]*\n${ultimoConteudo[c.key] || ''}\n\n`;
+    });
+    const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+    window.open(url, '_blank');
+  }
+</script>
+</body>
+</html>
