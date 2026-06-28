@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cadastro | Comunica⁺</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --dark-1: #060E18; --dark-2: #0A1624; --dark-3: #0E1E30;
+    --aqua: #4A9BC4; --aqua-lt: #6DB8E0; --white: #F0F4F8;
+    --muted: #7A90A8; --border: rgba(74,155,196,0.15);
+    --danger: #E05555; --success: #4AC47A;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--dark-1);
+    color: var(--white);
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .logo {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem; font-weight: 700;
+    margin-bottom: 2.5rem; text-align: center;
+  }
+  .logo span { color: var(--aqua); }
+  .card {
+    background: var(--dark-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    width: 100%; max-width: 480px;
+  }
+  .card-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem; font-weight: 700;
+    margin-bottom: .4rem;
+  }
+  .card-sub { color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
+  .trial-badge {
+    display: inline-flex; align-items: center; gap: .4rem;
+    background: rgba(74,155,196,0.12);
+    border: 1px solid var(--border);
+    color: var(--aqua); font-size: .78rem; font-weight: 600;
+    padding: .3rem .8rem; border-radius: 100px;
+    margin-bottom: 1.75rem;
+  }
+
+  .form-group { margin-bottom: 1.25rem; }
+  label { display: block; font-size: .8rem; font-weight: 600; color: var(--muted); margin-bottom: .4rem; letter-spacing: .04em; text-transform: uppercase; }
+  input, select {
+    width: 100%;
+    background: var(--dark-3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: .95rem;
+    padding: .7rem 1rem;
+    outline: none;
+    transition: border-color .2s;
+    appearance: none;
+  }
+  input:focus, select:focus { border-color: var(--aqua); }
+  input::placeholder { color: var(--muted); }
+
+  .btn {
+    width: 100%; padding: .9rem;
+    background: var(--aqua); color: var(--dark-1);
+    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700;
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: background .2s, transform .1s;
+    margin-top: .5rem;
+  }
+  .btn:hover:not(:disabled) { background: var(--aqua-lt); }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+
+  /* SUCESSO */
+  .success-box {
+    display: none;
+    background: rgba(74,196,122,0.08);
+    border: 1px solid rgba(74,196,122,0.3);
+    border-radius: 12px;
+    padding: 1.75rem;
+    text-align: center;
+  }
+  .success-box.show { display: block; }
+  .success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+  .success-box h3 { font-size: 1.15rem; margin-bottom: .75rem; }
+  .cred-row {
+    background: var(--dark-3); border-radius: 8px;
+    padding: .6rem 1rem; margin: .5rem 0;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: .9rem;
+  }
+  .cred-row strong { color: var(--aqua); font-family: monospace; font-size: 1rem; }
+  .cred-copy {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-size: .75rem;
+    padding: .2rem .5rem; border-radius: 4px;
+    cursor: pointer; transition: color .2s;
+  }
+  .cred-copy:hover { color: var(--aqua); }
+  .success-note { color: var(--muted); font-size: .82rem; margin-top: 1rem; line-height: 1.55; }
+  .btn-painel {
+    display: block; width: 100%; padding: .8rem;
+    background: var(--aqua); color: var(--dark-1);
+    font-weight: 700; font-size: .95rem;
+    border: none; border-radius: 8px;
+    text-decoration: none; text-align: center;
+    margin-top: 1.25rem; cursor: pointer;
+    transition: background .2s;
+  }
+  .btn-painel:hover { background: var(--aqua-lt); }
+
+  .err-msg {
+    color: var(--danger); font-size: .85rem;
+    margin-top: .75rem; display: none;
+  }
+  .err-msg.show { display: block; }
+
+  .footer-link { text-align: center; margin-top: 1.5rem; font-size: .85rem; color: var(--muted); }
+  .footer-link a { color: var(--aqua); text-decoration: none; }
+
+  /* Spinner */
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(0,0,0,.3); border-top-color: var(--dark-1); border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; margin-right: .4rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="logo">Comunica<span>⁺</span></div>
+
+<div class="card" id="formCard">
+  <div class="trial-badge">⚡ 7 dias Premium Trial grátis</div>
+  <div class="card-title">Criar conta</div>
+  <div class="card-sub">Preencha os dados abaixo. Usuário e senha serão gerados automaticamente e enviados para seu e-mail.</div>
+
+  <div class="form-group">
+    <label>Nome completo</label>
+    <input type="text" id="nome" placeholder="Seu nome" autocomplete="name">
+  </div>
+  <div class="form-group">
+    <label>E-mail</label>
+    <input type="email" id="email" placeholder="seu@email.com" autocomplete="email">
+  </div>
+  <div class="form-group">
+    <label>WhatsApp</label>
+    <input type="tel" id="whatsapp" placeholder="27999999999" maxlength="11">
+  </div>
+  <div class="form-group">
+    <label>Profissão</label>
+    <input type="text" id="profissao" placeholder="Ex: Coach, Professor, Empreendedor...">
+  </div>
+
+  <div class="err-msg" id="errMsg">⚠ Preencha todos os campos corretamente.</div>
+
+  <button class="btn" id="btnCadastrar" onclick="cadastrar()">Criar minha conta</button>
+  <div class="footer-link">Já tem conta? <a href="../painel/">Acessar painel</a></div>
+</div>
+
+<!-- SUCESSO -->
+<div class="card success-box" id="successBox">
+  <div class="success-icon">🎉</div>
+  <h3>Conta criada com sucesso!</h3>
+  <p style="color:var(--muted);font-size:.88rem;margin-bottom:1.25rem">Guarde seus dados de acesso:</p>
+
+  <div class="cred-row">
+    <span>Usuário</span>
+    <strong id="outUsuario">—</strong>
+    <button class="cred-copy" onclick="copiar('outUsuario')">Copiar</button>
+  </div>
+  <div class="cred-row">
+    <span>Senha</span>
+    <strong id="outSenha">—</strong>
+    <button class="cred-copy" onclick="copiar('outSenha')">Copiar</button>
+  </div>
+  <div class="cred-row">
+    <span>Trial até</span>
+    <strong id="outTrial">—</strong>
+    <span></span>
+  </div>
+
+  <p class="success-note">📧 Um e-mail com seus dados foi enviado para <span id="outEmail" style="color:var(--aqua)"></span></p>
+  <a class="btn-painel" id="linkPainel" href="../painel/">Acessar meu painel →</a>
+</div>
+
+<script>
+  // URL do Apps Script — substitua pelo seu link de implantação
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/SEU_ID_AQUI/exec";
+
+  function validar() {
+    const nome = document.getElementById('nome').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const profissao = document.getElementById('profissao').value.trim();
+    return nome && email && email.includes('@') && whatsapp.length >= 10 && profissao;
+  }
+
+  async function cadastrar() {
+    const err = document.getElementById('errMsg');
+    err.classList.remove('show');
+
+    if (!validar()) {
+      err.classList.add('show');
+      return;
+    }
+
+    const btn = document.getElementById('btnCadastrar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Criando conta...';
+
+    const dados = {
+      nome: document.getElementById('nome').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      whatsapp: document.getElementById('whatsapp').value.trim(),
+      profissao: document.getElementById('profissao').value.trim()
+    };
+
+    try {
+      const res = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ acao: 'cadastrar', dados })
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        document.getElementById('outUsuario').textContent = data.usuario;
+        document.getElementById('outSenha').textContent = data.senha;
+        document.getElementById('outTrial').textContent = data.trialFim;
+        document.getElementById('outEmail').textContent = dados.email;
+
+        // Passar credenciais para o painel via sessionStorage
+        sessionStorage.setItem('cp_user', data.usuario);
+        sessionStorage.setItem('cp_pass', data.senha);
+        sessionStorage.setItem('cp_id', data.idCliente);
+
+        document.getElementById('formCard').style.display = 'none';
+        document.getElementById('successBox').classList.add('show');
+      } else {
+        err.textContent = '⚠ ' + (data.msg || 'Erro ao criar conta. Tente novamente.');
+        err.classList.add('show');
+        btn.disabled = false;
+        btn.textContent = 'Criar minha conta';
+      }
+    } catch (e) {
+      // MODO DEMO: simulação sem backend
+      const nomeSlug = dados.nome.toLowerCase().replace(/\s+/g,'').substring(0,8);
+      const usuario = nomeSlug + Math.floor(Math.random()*900+100);
+      const senha   = nomeSlug + Math.floor(Math.random()*9000+1000);
+      const hoje = new Date();
+      const fim = new Date(hoje.getTime() + 7*24*60*60*1000);
+      const fmt = d => d.toLocaleDateString('pt-BR');
+
+      document.getElementById('outUsuario').textContent = usuario;
+      document.getElementById('outSenha').textContent = senha;
+      document.getElementById('outTrial').textContent = fmt(fim);
+      document.getElementById('outEmail').textContent = dados.email;
+
+      sessionStorage.setItem('cp_user', usuario);
+      sessionStorage.setItem('cp_pass', senha);
+      sessionStorage.setItem('cp_nome', dados.nome);
+
+      document.getElementById('formCard').style.display = 'none';
+      document.getElementById('successBox').classList.add('show');
+    }
+  }
+
+  function copiar(id) {
+    const texto = document.getElementById(id).textContent;
+    navigator.clipboard.writeText(texto);
+    const btn = event.target;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = 'Copiar', 1500);
+  }
+</script>
+</body>
+</html>
