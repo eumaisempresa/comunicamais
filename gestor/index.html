@@ -7,193 +7,336 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --dark-0: #030912; --dark-1: #060E18; --dark-2: #0A1624; --dark-3: #0E1E30;
-    --aqua: #4A9BC4; --aqua-lt: #6DB8E0;
-    --gold: #C4A265; --gold-lt: #D4B87A;
-    --white: #F0F4F8; --muted: #7A90A8; --border: rgba(74,155,196,0.15);
-    --success: #4AC47A; --danger: #E05555; --warn: #E0A355;
+    --dark-0:#030912; --dark-1:#060E18; --dark-2:#0A1624; --dark-3:#0E1E30;
+    --aqua:#4A9BC4; --aqua-lt:#6DB8E0;
+    --gold:#C4A265; --gold-lt:#D4B87A; --gold-dk:#A8883E;
+    --white:#F0F4F8; --muted:#7A90A8; --border:rgba(74,155,196,0.15);
+    --success:#4AC47A; --danger:#E05555; --warn:#E0A355;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Inter', sans-serif; background: var(--dark-1); color: var(--white); min-height: 100vh; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:var(--dark-1);color:var(--white);min-height:100vh}
 
-  /* LOGIN */
-  #loginScreen {
-    min-height: 100vh;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 2rem 1rem;
+  /* ── LOGIN ── */
+  #loginScreen{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:2rem 1rem;
   }
-  .login-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-bottom: .25rem; }
-  .login-logo span { color: var(--gold); }
-  .login-sub-logo { color: var(--muted); font-size: .8rem; margin-bottom: 2.5rem; letter-spacing: .05em; text-transform: uppercase; }
-  .login-card { background: var(--dark-2); border: 1px solid rgba(196,162,101,0.2); border-radius: 16px; padding: 2.5rem 2rem; width: 100%; max-width: 380px; }
-  .login-card h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.25rem; margin-bottom: .35rem; }
-  .login-card p { color: var(--muted); font-size: .88rem; margin-bottom: 2rem; }
-  .fg { margin-bottom: 1.25rem; }
-  label { display: block; font-size: .78rem; font-weight: 600; color: var(--muted); margin-bottom: .4rem; letter-spacing: .04em; text-transform: uppercase; }
-  input, select { width: 100%; background: var(--dark-3); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Inter', sans-serif; font-size: .95rem; padding: .7rem 1rem; outline: none; transition: border-color .2s; }
-  input:focus, select:focus { border-color: var(--gold); }
-  input::placeholder { color: var(--muted); }
-  .btn-login { width: 100%; padding: .85rem; background: var(--gold); color: var(--dark-1); font-weight: 700; font-size: .95rem; border: none; border-radius: 8px; cursor: pointer; transition: background .2s; }
-  .btn-login:hover { background: var(--gold-lt); }
-  .login-err { color: var(--danger); font-size: .85rem; margin-top: .75rem; display: none; }
-  .login-err.show { display: block; }
+  .login-ecosystem{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:.85rem;font-weight:700;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--gold);
+    margin-bottom:.35rem;
+  }
+  .login-logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.6rem;font-weight:700;color:var(--white);
+    margin-bottom:.25rem;
+  }
+  .login-logo span{color:var(--gold)}
+  .login-sub{color:var(--muted);font-size:.78rem;margin-bottom:2.75rem;letter-spacing:.04em;text-transform:uppercase}
+  .login-card{
+    background:var(--dark-2);
+    border:1px solid rgba(196,162,101,0.25);
+    border-radius:16px;padding:2.5rem 2rem;
+    width:100%;max-width:380px;
+  }
+  .login-card h2{font-family:'Space Grotesk',sans-serif;font-size:1.2rem;margin-bottom:.35rem}
+  .login-card p{color:var(--muted);font-size:.88rem;margin-bottom:2rem}
+  .fg{margin-bottom:1.25rem}
+  label{display:block;font-size:.78rem;font-weight:600;color:var(--muted);margin-bottom:.4rem;letter-spacing:.04em;text-transform:uppercase}
+  input,select{
+    width:100%;background:var(--dark-3);border:1px solid var(--border);
+    border-radius:8px;color:var(--white);
+    font-family:'Inter',sans-serif;font-size:.95rem;
+    padding:.7rem 1rem;outline:none;transition:border-color .2s;
+  }
+  input:focus,select:focus{border-color:var(--gold)}
+  input::placeholder{color:var(--muted)}
+  .btn-login{
+    width:100%;padding:.85rem;
+    background:var(--gold);color:var(--dark-1);
+    font-weight:700;font-size:.95rem;
+    border:none;border-radius:8px;cursor:pointer;transition:background .2s;
+  }
+  .btn-login:hover{background:var(--gold-lt)}
+  .login-err{color:var(--danger);font-size:.85rem;margin-top:.75rem;display:none}
+  .login-err.show{display:block}
 
-  /* APP */
-  #appScreen { display: none; }
+  /* ── APP ── */
+  #appScreen{display:none}
+  .layout{display:flex;min-height:100vh}
 
   /* SIDEBAR */
-  .layout { display: flex; min-height: 100vh; }
-  .sidebar {
-    width: 240px; flex-shrink: 0;
-    background: var(--dark-2); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column;
-    padding: 1.5rem 1rem; position: sticky; top: 0; height: 100vh;
+  .sidebar{
+    width:220px;flex-shrink:0;
+    background:var(--dark-2);border-right:1px solid var(--border);
+    display:flex;flex-direction:column;
+    padding:1.5rem 1rem;position:sticky;top:0;height:100vh;overflow-y:auto;
   }
-  .sidebar-logo { font-family: 'Space Grotesk', sans-serif; font-size: 1.2rem; font-weight: 700; padding: .5rem .75rem; margin-bottom: 2rem; }
-  .sidebar-logo span { color: var(--gold); }
-  .nav-item {
-    display: flex; align-items: center; gap: .65rem;
-    padding: .6rem .75rem; border-radius: 8px;
-    color: var(--muted); font-size: .875rem; font-weight: 500;
-    cursor: pointer; transition: all .2s; margin-bottom: .25rem;
-    text-decoration: none;
+  .sidebar-ecosystem{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:.7rem;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--gold);
+    padding:.25rem .75rem 0;
   }
-  .nav-item:hover, .nav-item.active { background: rgba(196,162,101,0.1); color: var(--gold); }
-  .nav-item .ico { font-size: 1rem; }
-  .sidebar-bottom { margin-top: auto; }
-  .btn-logout { width: 100%; padding: .6rem; background: none; border: 1px solid var(--border); color: var(--muted); font-size: .85rem; border-radius: 8px; cursor: pointer; transition: color .2s; }
-  .btn-logout:hover { color: var(--danger); }
+  .sidebar-logo{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.15rem;font-weight:700;
+    padding:.2rem .75rem .6rem;margin-bottom:1.75rem;
+    border-bottom:1px solid var(--border);
+  }
+  .sidebar-logo span{color:var(--gold)}
+  .nav-item{
+    display:flex;align-items:center;gap:.65rem;
+    padding:.6rem .75rem;border-radius:8px;
+    color:var(--muted);font-size:.875rem;font-weight:500;
+    cursor:pointer;transition:all .2s;margin-bottom:.2rem;
+    text-decoration:none;
+  }
+  .nav-item:hover,.nav-item.active{background:rgba(196,162,101,0.1);color:var(--gold)}
+  .nav-item .ico{font-size:1rem}
+  .sidebar-bottom{margin-top:auto}
+  .btn-logout{
+    width:100%;padding:.6rem;background:none;
+    border:1px solid var(--border);color:var(--muted);
+    font-size:.85rem;border-radius:8px;cursor:pointer;transition:color .2s;
+  }
+  .btn-logout:hover{color:var(--danger)}
 
   /* CONTENT */
-  .content { flex: 1; overflow: hidden; }
-  .topbar { border-bottom: 1px solid var(--border); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
-  .topbar h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.3rem; font-weight: 700; }
-  .topbar-badge { font-size: .75rem; background: rgba(196,162,101,0.15); color: var(--gold); padding: .2rem .6rem; border-radius: 4px; font-weight: 600; }
-
-  .inner { padding: 2rem; }
-
-  /* STATS */
-  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2.5rem; }
-  .stat-card { background: var(--dark-2); border: 1px solid var(--border); border-radius: 12px; padding: 1.25rem; }
-  .stat-val { font-family: 'Space Grotesk', sans-serif; font-size: 2rem; font-weight: 700; color: var(--gold); }
-  .stat-lbl { font-size: .78rem; color: var(--muted); margin-top: .25rem; }
-
-  /* CLIENTES */
-  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: .75rem; }
-  .section-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.05rem; }
-  .search-input { background: var(--dark-3); border: 1px solid var(--border); border-radius: 8px; color: var(--white); font-family: 'Inter', sans-serif; font-size: .875rem; padding: .5rem .9rem; outline: none; width: 220px; }
-  .search-input:focus { border-color: var(--gold); }
-
-  .table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; }
-  thead tr { background: var(--dark-3); }
-  th { padding: .75rem 1rem; text-align: left; font-size: .75rem; font-weight: 600; color: var(--muted); letter-spacing: .05em; text-transform: uppercase; white-space: nowrap; }
-  td { padding: .85rem 1rem; border-top: 1px solid var(--border); font-size: .875rem; white-space: nowrap; }
-  tr:hover td { background: rgba(255,255,255,0.02); }
-
-  .status-badge {
-    display: inline-flex; align-items: center; gap: .3rem;
-    font-size: .72rem; font-weight: 600; padding: .2rem .6rem; border-radius: 4px;
+  .content{flex:1;overflow:hidden}
+  .topbar{
+    border-bottom:1px solid var(--border);
+    padding:1rem 2rem;
+    display:flex;align-items:center;justify-content:space-between;
   }
-  .status-badge.ativo { background: rgba(74,196,122,0.15); color: var(--success); }
-  .status-badge.inativo { background: rgba(224,85,85,0.15); color: var(--danger); }
-  .status-badge.suspenso { background: rgba(224,163,85,0.15); color: var(--warn); }
-
-  .plano-badge {
-    font-size: .72rem; font-weight: 600; padding: .2rem .55rem; border-radius: 4px;
-    background: rgba(196,162,101,0.12); color: var(--gold);
+  .topbar h1{font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700}
+  .topbar-badge{
+    font-size:.75rem;background:rgba(196,162,101,0.12);
+    color:var(--gold);padding:.25rem .7rem;border-radius:4px;font-weight:600;
   }
+  .inner{padding:2rem}
 
-  .btn-action {
-    background: none; border: 1px solid var(--border);
-    color: var(--muted); font-size: .78rem;
-    padding: .25rem .6rem; border-radius: 5px;
-    cursor: pointer; transition: all .2s; margin-right: .25rem;
+  /* KPIs */
+  .kpi-section{margin-bottom:2.5rem}
+  .kpi-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.85rem}
+  .kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+    gap:.85rem;
   }
-  .btn-action:hover { color: var(--aqua); border-color: var(--aqua); }
-  .btn-action.danger:hover { color: var(--danger); border-color: var(--danger); }
+  .kpi-card{
+    background:var(--dark-2);border:1px solid var(--border);
+    border-radius:12px;padding:1.1rem 1rem;
+    position:relative;overflow:hidden;
+  }
+  .kpi-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:var(--gold);opacity:.4;
+  }
+  .kpi-card.highlight::before{opacity:1}
+  .kpi-val{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.9rem;font-weight:700;color:var(--gold);line-height:1;
+  }
+  .kpi-lbl{font-size:.72rem;color:var(--muted);margin-top:.35rem;line-height:1.3}
 
-  /* MODAL */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(3,9,18,0.85); backdrop-filter: blur(4px);
-    z-index: 200; align-items: center; justify-content: center;
-    padding: 1rem;
+  /* TABELA */
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.75rem}
+  .section-header h2{font-family:'Space Grotesk',sans-serif;font-size:1rem}
+  .search-input{
+    background:var(--dark-3);border:1px solid var(--border);
+    border-radius:8px;color:var(--white);
+    font-family:'Inter',sans-serif;font-size:.875rem;
+    padding:.5rem .9rem;outline:none;width:210px;
   }
-  .modal-overlay.show { display: flex; }
-  .modal {
-    background: var(--dark-2); border: 1px solid var(--border);
-    border-radius: 16px; padding: 2rem;
-    width: 100%; max-width: 480px;
-    max-height: 90vh; overflow-y: auto;
-  }
-  .modal h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; margin-bottom: 1.5rem; }
-  .modal-row { display: flex; justify-content: space-between; align-items: center; padding: .75rem 0; border-bottom: 1px solid var(--border); }
-  .modal-row:last-of-type { border-bottom: none; }
-  .modal-row label { font-size: .78rem; color: var(--muted); font-weight: 500; text-transform: none; letter-spacing: 0; }
-  .modal-row span { font-size: .88rem; }
-  .modal-btns { display: flex; gap: .75rem; margin-top: 1.5rem; }
-  .btn-save { flex: 1; padding: .7rem; background: var(--gold); color: var(--dark-1); font-weight: 700; font-size: .9rem; border: none; border-radius: 8px; cursor: pointer; transition: background .2s; }
-  .btn-save:hover { background: var(--gold-lt); }
-  .btn-cancel { flex: 1; padding: .7rem; background: none; border: 1px solid var(--border); color: var(--muted); font-size: .9rem; border-radius: 8px; cursor: pointer; transition: color .2s; }
-  .btn-cancel:hover { color: var(--danger); }
+  .search-input:focus{border-color:var(--gold)}
+  .table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border)}
+  table{width:100%;border-collapse:collapse}
+  thead tr{background:var(--dark-3)}
+  th{padding:.7rem 1rem;text-align:left;font-size:.72rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+  td{padding:.8rem 1rem;border-top:1px solid var(--border);font-size:.875rem;white-space:nowrap}
+  tr:hover td{background:rgba(255,255,255,0.02)}
 
-  @media (max-width: 700px) {
-    .sidebar { display: none; }
-    .content { width: 100%; }
-    .stats-row { grid-template-columns: 1fr 1fr; }
+  .status-badge{display:inline-flex;align-items:center;gap:.3rem;font-size:.7rem;font-weight:600;padding:.2rem .6rem;border-radius:4px}
+  .status-badge.ativo{background:rgba(74,196,122,0.12);color:var(--success)}
+  .status-badge.inativo{background:rgba(224,85,85,0.12);color:var(--danger)}
+  .status-badge.suspenso{background:rgba(224,163,85,0.12);color:var(--warn)}
+
+  .plano-badge{font-size:.7rem;font-weight:600;padding:.2rem .55rem;border-radius:4px;background:rgba(196,162,101,0.1);color:var(--gold)}
+
+  .btn-action{
+    background:none;border:1px solid var(--border);
+    color:var(--muted);font-size:.78rem;
+    padding:.25rem .6rem;border-radius:5px;
+    cursor:pointer;transition:all .2s;margin-right:.25rem;
+  }
+  .btn-action:hover{color:var(--aqua);border-color:var(--aqua)}
+  .btn-wpp{
+    background:none;border:1px solid rgba(37,211,102,0.3);
+    color:#25D366;font-size:.78rem;
+    padding:.25rem .6rem;border-radius:5px;
+    cursor:pointer;transition:all .2s;
+  }
+  .btn-wpp:hover{background:rgba(37,211,102,0.1)}
+
+  /* MODAL EDITAR */
+  .modal-overlay{
+    display:none;position:fixed;inset:0;
+    background:rgba(3,9,18,0.88);backdrop-filter:blur(4px);
+    z-index:200;align-items:center;justify-content:center;padding:1rem;
+  }
+  .modal-overlay.show{display:flex}
+  .modal{
+    background:var(--dark-2);border:1px solid var(--border);
+    border-radius:16px;padding:2rem;
+    width:100%;max-width:460px;max-height:90vh;overflow-y:auto;
+  }
+  .modal h3{font-family:'Space Grotesk',sans-serif;font-size:1.1rem;margin-bottom:1.5rem}
+  .modal-row{display:flex;justify-content:space-between;align-items:center;padding:.7rem 0;border-bottom:1px solid var(--border)}
+  .modal-row:last-of-type{border-bottom:none}
+  .modal-row label{font-size:.78rem;color:var(--muted);font-weight:500;text-transform:none;letter-spacing:0}
+  .modal-row span{font-size:.88rem}
+  .modal-btns{display:flex;gap:.75rem;margin-top:1.5rem}
+  .btn-save{flex:1;padding:.7rem;background:var(--gold);color:var(--dark-1);font-weight:700;font-size:.9rem;border:none;border-radius:8px;cursor:pointer;transition:background .2s}
+  .btn-save:hover{background:var(--gold-lt)}
+  .btn-cancel{flex:1;padding:.7rem;background:none;border:1px solid var(--border);color:var(--muted);font-size:.9rem;border-radius:8px;cursor:pointer;transition:color .2s}
+  .btn-cancel:hover{color:var(--danger)}
+
+  /* MODAL WPP */
+  .wpp-modal{max-width:520px}
+  .wpp-modal h3{margin-bottom:.5rem}
+  .wpp-sub{color:var(--muted);font-size:.85rem;margin-bottom:1.5rem}
+  .wpp-option{
+    background:var(--dark-3);border:1px solid var(--border);
+    border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem;cursor:pointer;
+    transition:border-color .2s;
+  }
+  .wpp-option:hover{border-color:rgba(37,211,102,0.4)}
+  .wpp-option-title{font-size:.875rem;font-weight:600;margin-bottom:.35rem;color:var(--white)}
+  .wpp-option-preview{font-size:.8rem;color:var(--muted);line-height:1.5}
+  .wpp-option-tag{
+    display:inline-block;font-size:.68rem;font-weight:600;
+    padding:.15rem .5rem;border-radius:3px;
+    background:rgba(37,211,102,0.12);color:#25D366;
+    margin-bottom:.5rem;
+  }
+  .btn-enviar-wpp{
+    width:100%;padding:.8rem;margin-top:.25rem;
+    background:#25D366;color:#fff;
+    font-weight:700;font-size:.9rem;
+    border:none;border-radius:8px;cursor:pointer;transition:opacity .2s;
+    display:flex;align-items:center;justify-content:center;gap:.5rem;
+  }
+  .btn-enviar-wpp:hover{opacity:.88}
+
+  @media(max-width:700px){
+    .sidebar{display:none}
+    .content{width:100%}
+    .kpi-grid{grid-template-columns:1fr 1fr}
   }
 </style>
 </head>
 <body>
 
-<!-- LOGIN GESTOR -->
+<!-- ── LOGIN ── -->
 <div id="loginScreen">
-  <div class="login-logo">Gestor<span>⁺</span></div>
-  <div class="login-sub-logo">Painel de administração · Grupo EU⁺</div>
+  <div class="login-ecosystem">Ecossistema EU⁺</div>
+  <div class="login-logo">Comunica<span>⁺</span></div>
+  <div class="login-sub">Painel de administração · Grupo EU⁺</div>
   <div class="login-card">
     <h2>Acesso restrito</h2>
     <p>Área exclusiva para gestão de clientes e planos.</p>
     <div class="fg">
-      <label>Senha de gestor</label>
+      <label>Token de gestor</label>
       <input type="password" id="gestorSenha" placeholder="••••••••" autocomplete="current-password">
     </div>
-    <div class="login-err" id="gestorErr">⚠ Senha incorreta.</div>
+    <div class="login-err" id="gestorErr">⚠ Token inválido. Verifique e tente novamente.</div>
     <button class="btn-login" onclick="acessarGestor()">Acessar</button>
   </div>
 </div>
 
-<!-- APP GESTOR -->
+<!-- ── APP ── -->
 <div id="appScreen">
   <div class="layout">
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
+      <div class="sidebar-ecosystem">Ecossistema EU⁺</div>
       <div class="sidebar-logo">Comunica<span>⁺</span></div>
-      <div class="nav-item active" onclick="irPara('clientes')"><span class="ico">👥</span> Clientes</div>
-      <div class="nav-item" onclick="irPara('historico')"><span class="ico">📋</span> Histórico</div>
+      <div class="nav-item active" onclick="irPara('clientes',this)"><span class="ico">👥</span> Clientes</div>
+      <div class="nav-item" onclick="irPara('historico',this)"><span class="ico">📋</span> Histórico</div>
       <a class="nav-item" href="../" target="_blank"><span class="ico">🌐</span> Ver site</a>
       <div class="sidebar-bottom">
         <button class="btn-logout" onclick="logout()">Sair</button>
       </div>
     </aside>
 
+    <!-- CONTENT -->
     <div class="content">
       <div class="topbar">
         <h1 id="pageTitle">Clientes</h1>
         <span class="topbar-badge">Gestor · Bruno Vieira</span>
       </div>
 
-      <!-- CLIENTES -->
+      <!-- VIEW CLIENTES -->
       <div class="inner" id="viewClientes">
-        <div class="stats-row" id="statsRow">
-          <div class="stat-card"><div class="stat-val" id="statTotal">—</div><div class="stat-lbl">Total clientes</div></div>
-          <div class="stat-card"><div class="stat-val" id="statAtivos">—</div><div class="stat-lbl">Ativos</div></div>
-          <div class="stat-card"><div class="stat-val" id="statTrial">—</div><div class="stat-lbl">Em trial</div></div>
-          <div class="stat-card"><div class="stat-val" id="statPremium">—</div><div class="stat-lbl">Premium</div></div>
+
+        <!-- KPIs — linha 1: visão geral -->
+        <div class="kpi-section">
+          <div class="kpi-label">Visão geral</div>
+          <div class="kpi-grid">
+            <div class="kpi-card highlight">
+              <div class="kpi-val" id="kTotal">—</div>
+              <div class="kpi-lbl">Total de clientes</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kAtivos">—</div>
+              <div class="kpi-lbl">Ativos</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kInativos">—</div>
+              <div class="kpi-lbl">Inativos</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kSuspensos">—</div>
+              <div class="kpi-lbl">Suspensos</div>
+            </div>
+          </div>
         </div>
 
+        <!-- KPIs — linha 2: planos -->
+        <div class="kpi-section">
+          <div class="kpi-label">Por plano</div>
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-val" id="kFree">—</div>
+              <div class="kpi-lbl">Free</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kBasico">—</div>
+              <div class="kpi-lbl">Básico</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kTrial">—</div>
+              <div class="kpi-lbl">Premium Trial</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kPremium">—</div>
+              <div class="kpi-lbl">Premium</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-val" id="kPersonalizado">—</div>
+              <div class="kpi-lbl">Personalizado</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABELA -->
         <div class="section-header">
           <h2>Lista de clientes</h2>
-          <input type="text" class="search-input" placeholder="Buscar cliente..." oninput="filtrarClientes(this.value)">
+          <input type="text" class="search-input" placeholder="Buscar por nome, e-mail ou ID…" oninput="filtrarClientes(this.value)">
         </div>
 
         <div class="table-wrap">
@@ -209,16 +352,16 @@
         </div>
       </div>
 
-      <!-- HISTÓRICO -->
+      <!-- VIEW HISTÓRICO -->
       <div class="inner" id="viewHistorico" style="display:none">
-        <p style="color:var(--muted)">Em breve: listagem completa de gerações por cliente.</p>
+        <p style="color:var(--muted);font-size:.9rem">Em breve: listagem completa de gerações por cliente com filtros.</p>
       </div>
     </div>
   </div>
 </div>
 
 <!-- MODAL EDITAR CLIENTE -->
-<div class="modal-overlay" id="modalOverlay">
+<div class="modal-overlay" id="modalEdit">
   <div class="modal">
     <h3>Editar cliente</h3>
     <div class="modal-row"><label>ID</label><span id="mId">—</span></div>
@@ -227,11 +370,11 @@
     <div class="modal-row">
       <label>Plano</label>
       <select id="mPlano" style="width:auto;padding:.35rem .6rem">
-        <option>Free</option>
-        <option>Básico</option>
-        <option>Premium Trial</option>
-        <option>Premium</option>
-        <option>Personalizado</option>
+        <option value="Free">Free</option>
+        <option value="Básico">Básico</option>
+        <option value="Premium Trial">Premium Trial</option>
+        <option value="Premium">Premium</option>
+        <option value="Personalizado">Personalizado</option>
       </select>
     </div>
     <div class="modal-row">
@@ -247,80 +390,126 @@
       <input type="text" id="mTrialFim" style="width:130px;padding:.35rem .6rem" placeholder="dd/mm/aaaa">
     </div>
     <div class="modal-btns">
-      <button class="btn-cancel" onclick="fecharModal()">Cancelar</button>
-      <button class="btn-save" onclick="salvarCliente()">Salvar</button>
+      <button class="btn-cancel" onclick="fecharModal('modalEdit')">Cancelar</button>
+      <button class="btn-save" onclick="salvarCliente()">Salvar alterações</button>
     </div>
+  </div>
+</div>
+
+<!-- MODAL WPP -->
+<div class="modal-overlay" id="modalWpp">
+  <div class="modal wpp-modal">
+    <h3>Enviar mensagem via WhatsApp</h3>
+    <p class="wpp-sub">Escolha a abordagem para <strong id="wppNome">—</strong>. Cada mensagem sugere o próximo plano.</p>
+    <div id="wppOpcoes"></div>
+    <button class="btn-cancel" style="width:100%;margin-top:.5rem" onclick="fecharModal('modalWpp')">Cancelar</button>
   </div>
 </div>
 
 <script>
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/SEU_ID_AQUI/exec";
-  // Senha local do gestor — troque aqui (em produção, use o Apps Script para validar)
-  const SENHA_GESTOR = "bruno5057";
 
   let clientes = [];
   let clienteEditando = null;
+  let clienteWpp = null;
 
-  function acessarGestor() {
-    const senha = document.getElementById('gestorSenha').value;
-    const err = document.getElementById('gestorErr');
-    if (senha !== SENHA_GESTOR) { err.classList.add('show'); return; }
+  // ── LOGIN ──
+  async function acessarGestor() {
+    const token = document.getElementById('gestorSenha').value.trim();
+    const err   = document.getElementById('gestorErr');
+    err.classList.remove('show');
+    if (!token) { err.classList.add('show'); return; }
+
+    try {
+      const res  = await fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ acao: 'autenticarGestor', token })
+      });
+      const data = await res.json();
+      if (data.ok) { entrar(); }
+      else { err.textContent = '⚠ ' + (data.msg || 'Token inválido.'); err.classList.add('show'); }
+    } catch (e) {
+      // DEMO: qualquer token entra
+      entrar();
+    }
+  }
+
+  function entrar() {
     document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('appScreen').style.display = 'block';
+    document.getElementById('appScreen').style.display  = 'block';
     carregarClientes();
   }
 
   function logout() { location.reload(); }
 
-  function irPara(view) {
-    document.getElementById('viewClientes').style.display = view === 'clientes' ? 'block' : 'none';
+  document.getElementById('gestorSenha').addEventListener('keydown', e => {
+    if (e.key === 'Enter') acessarGestor();
+  });
+
+  // ── NAVEGAÇÃO ──
+  function irPara(view, el) {
+    document.getElementById('viewClientes').style.display  = view === 'clientes'  ? 'block' : 'none';
     document.getElementById('viewHistorico').style.display = view === 'historico' ? 'block' : 'none';
     document.getElementById('pageTitle').textContent = view === 'clientes' ? 'Clientes' : 'Histórico';
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-    event.currentTarget.classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    if (el) el.classList.add('active');
   }
 
+  // ── DADOS ──
   async function carregarClientes() {
     try {
       const res = await fetch(APPS_SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ acao: 'listarClientes' })
+        method: 'POST', body: JSON.stringify({ acao: 'listarClientes' })
       });
       clientes = await res.json();
     } catch (e) {
       // DEMO
       clientes = [
-        { id:'maisvida27453', nome:'Bruno', whatsapp:'27997161826', email:'brunorsvieira@gmail.com', profissao:'Professor', usuario:'bruno504', plano:'básico', trialIni:'28/06/2026', trialFim:'05/07/2026', status:'ativo' }
+        { id:'maisvida27453', nome:'Bruno', whatsapp:'27997161826',
+          email:'brunorsvieira@gmail.com', profissao:'Professor',
+          usuario:'bruno504', plano:'básico',
+          trialIni:'28/06/2026', trialFim:'05/07/2026', status:'ativo' }
       ];
     }
-    renderizarStats();
+    renderizarKPIs();
     renderizarTabela(clientes);
   }
 
-  function renderizarStats() {
-    document.getElementById('statTotal').textContent = clientes.length;
-    document.getElementById('statAtivos').textContent = clientes.filter(c => c.status === 'ativo').length;
-    document.getElementById('statTrial').textContent = clientes.filter(c => c.plano.toLowerCase().includes('trial')).length;
-    document.getElementById('statPremium').textContent = clientes.filter(c => c.plano.toLowerCase() === 'premium').length;
+  // ── KPIs ──
+  function renderizarKPIs() {
+    const n = v => clientes.filter(v).length;
+    const p = plano => clientes.filter(c => c.plano.toLowerCase() === plano.toLowerCase()).length;
+
+    document.getElementById('kTotal').textContent       = clientes.length;
+    document.getElementById('kAtivos').textContent      = n(c => c.status === 'ativo');
+    document.getElementById('kInativos').textContent    = n(c => c.status === 'inativo');
+    document.getElementById('kSuspensos').textContent   = n(c => c.status === 'suspenso');
+
+    document.getElementById('kFree').textContent        = p('free');
+    document.getElementById('kBasico').textContent      = p('básico');
+    document.getElementById('kTrial').textContent       = n(c => c.plano.toLowerCase().includes('trial'));
+    document.getElementById('kPremium').textContent     = p('premium');
+    document.getElementById('kPersonalizado').textContent = p('personalizado');
   }
 
+  // ── TABELA ──
   function renderizarTabela(lista) {
     const tbody = document.getElementById('tabelaClientes');
     tbody.innerHTML = '';
     lista.forEach(c => {
       const tr = document.createElement('tr');
       tr.innerHTML = `
-        <td style="color:var(--muted);font-size:.8rem">${c.id}</td>
+        <td style="color:var(--muted);font-size:.78rem">${c.id}</td>
         <td style="font-weight:500">${c.nome}</td>
         <td>${c.whatsapp}</td>
-        <td style="color:var(--muted)">${c.email}</td>
-        <td style="font-family:monospace;color:var(--aqua)">${c.usuario}</td>
+        <td style="color:var(--muted);font-size:.82rem">${c.email}</td>
+        <td style="font-family:monospace;color:var(--aqua);font-size:.82rem">${c.usuario}</td>
         <td><span class="plano-badge">${c.plano}</span></td>
-        <td style="color:var(--muted)">${c.trialFim || '—'}</td>
+        <td style="color:var(--muted);font-size:.82rem">${c.trialFim || '—'}</td>
         <td><span class="status-badge ${c.status}">${c.status}</span></td>
         <td>
-          <button class="btn-action" onclick='editarCliente(${JSON.stringify(c)})'>Editar</button>
-          <button class="btn-action" onclick="abrirWhatsApp('${c.whatsapp}')">WPP</button>
+          <button class="btn-action" onclick='abrirModalEdit(${JSON.stringify(c)})'>Editar</button>
+          <button class="btn-wpp"    onclick='abrirModalWpp(${JSON.stringify(c)})'>WPP</button>
         </td>
       `;
       tbody.appendChild(tr);
@@ -328,66 +517,146 @@
   }
 
   function filtrarClientes(q) {
-    const filtrado = clientes.filter(c =>
-      c.nome.toLowerCase().includes(q.toLowerCase()) ||
-      c.email.toLowerCase().includes(q.toLowerCase()) ||
-      c.id.toLowerCase().includes(q.toLowerCase())
-    );
-    renderizarTabela(filtrado);
+    const ql = q.toLowerCase();
+    renderizarTabela(clientes.filter(c =>
+      c.nome.toLowerCase().includes(ql) ||
+      c.email.toLowerCase().includes(ql) ||
+      c.id.toLowerCase().includes(ql)
+    ));
   }
 
-  function editarCliente(c) {
+  // ── MODAL EDITAR ──
+  function abrirModalEdit(c) {
     clienteEditando = c;
-    document.getElementById('mId').textContent = c.id;
-    document.getElementById('mNome').textContent = c.nome;
+    document.getElementById('mId').textContent    = c.id;
+    document.getElementById('mNome').textContent  = c.nome;
     document.getElementById('mEmail').textContent = c.email;
-    document.getElementById('mPlano').value = c.plano;
-    document.getElementById('mStatus').value = c.status;
-    document.getElementById('mTrialFim').value = c.trialFim || '';
-    document.getElementById('modalOverlay').classList.add('show');
-  }
-
-  function fecharModal() {
-    document.getElementById('modalOverlay').classList.remove('show');
-    clienteEditando = null;
+    document.getElementById('mPlano').value       = c.plano;
+    document.getElementById('mStatus').value      = c.status;
+    document.getElementById('mTrialFim').value    = c.trialFim || '';
+    document.getElementById('modalEdit').classList.add('show');
   }
 
   async function salvarCliente() {
     if (!clienteEditando) return;
-    const novoPlano = document.getElementById('mPlano').value;
-    const novoStatus = document.getElementById('mStatus').value;
-    const novoFim = document.getElementById('mTrialFim').value;
+    const plano    = document.getElementById('mPlano').value;
+    const status   = document.getElementById('mStatus').value;
+    const trialFim = document.getElementById('mTrialFim').value;
 
     try {
       await fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: JSON.stringify({
-          acao: 'atualizarCliente',
-          idCliente: clienteEditando.id,
-          plano: novoPlano, status: novoStatus, trialFim: novoFim
-        })
+        body: JSON.stringify({ acao:'atualizarCliente', idCliente:clienteEditando.id, plano, status, trialFim })
       });
-    } catch (e) { /* DEMO: apenas atualiza local */ }
+    } catch (e) { /* DEMO */ }
 
-    // Atualizar local
     const idx = clientes.findIndex(c => c.id === clienteEditando.id);
-    if (idx >= 0) {
-      clientes[idx].plano = novoPlano;
-      clientes[idx].status = novoStatus;
-      clientes[idx].trialFim = novoFim;
-    }
-    fecharModal();
-    renderizarStats();
+    if (idx >= 0) Object.assign(clientes[idx], { plano, status, trialFim });
+    fecharModal('modalEdit');
+    renderizarKPIs();
     renderizarTabela(clientes);
   }
 
-  function abrirWhatsApp(num) {
-    window.open(`https://wa.me/55${num}`, '_blank');
+  // ── MODAL WPP ──
+  const MENSAGENS_WPP = {
+    free: [
+      {
+        tag: 'Upgrade → Básico',
+        titulo: 'Desbloqueie mais gerações',
+        preview: 'Olá [NOME]! Vi que você está no plano Free do Comunica⁺. Com o Básico, você tem até 20 gerações por dia e os 9 canais completos. Posso te explicar como funciona? 🚀',
+      },
+      {
+        tag: 'Urgência',
+        titulo: 'Seu free está quase no limite',
+        preview: 'Oi [NOME]! Você já usou as suas gerações de hoje no Comunica⁺. Com o plano Básico você nunca para. Quer dar o próximo passo?',
+      }
+    ],
+    básico: [
+      {
+        tag: 'Upgrade → Premium Trial',
+        titulo: 'Experimente o Premium grátis',
+        preview: 'Olá [NOME]! Que tal testar o Comunica⁺ Premium por 7 dias sem custo? Gerações ilimitadas + histórico permanente + suporte prioritário. Topa? 🎯',
+      },
+      {
+        tag: 'Resultado + upgrade',
+        titulo: 'Potencialize seus resultados',
+        preview: 'Oi [NOME]! Você já está usando o Comunica⁺ no Básico. O Premium libera tudo sem limites. Vale muito para quem publica todo dia. Posso te mostrar?',
+      }
+    ],
+    'premium trial': [
+      {
+        tag: 'Converter → Premium',
+        titulo: 'Seu trial está acabando',
+        preview: 'Olá [NOME]! Seu período Premium Trial do Comunica⁺ está próximo do fim. Para manter tudo funcionando sem interrupção, vamos garantir seu acesso Premium? 💡',
+      },
+      {
+        tag: 'Valor percebido',
+        titulo: 'O que você produziu no trial',
+        preview: 'Oi [NOME]! Nesses dias de trial, quantos conteúdos o Comunica⁺ te ajudou a criar? Imagina isso todos os meses. O Premium garante isso sem limites. 🔥',
+      }
+    ],
+    premium: [
+      {
+        tag: 'Upgrade → Personalizado',
+        titulo: 'Leve para o próximo nível',
+        preview: 'Olá [NOME]! Você é um dos nossos clientes Premium mais ativos. Já pensou em ter uma persona 100% personalizada, integração com a Meta API e suporte dedicado? Vamos conversar?',
+      },
+      {
+        tag: 'Indicação',
+        titulo: 'Programa de indicação EU⁺',
+        preview: 'Oi [NOME]! Você conhece alguém que precisaria do Comunica⁺? Cada indicação que fechar tem benefícios pra você. Me fala! 🤝',
+      }
+    ],
+    personalizado: [
+      {
+        tag: 'Relacionamento',
+        titulo: 'Check-in de resultados',
+        preview: 'Olá [NOME]! Passando para saber como está sendo sua experiência com o Comunica⁺ Personalizado. Algum ajuste ou nova demanda que posso resolver? 🙌',
+      }
+    ]
+  };
+
+  function abrirModalWpp(c) {
+    clienteWpp = c;
+    document.getElementById('wppNome').textContent = c.nome;
+
+    const planoKey = c.plano.toLowerCase();
+    const opcoes   = MENSAGENS_WPP[planoKey] || MENSAGENS_WPP['premium'];
+    const container = document.getElementById('wppOpcoes');
+    container.innerHTML = '';
+
+    opcoes.forEach((op, i) => {
+      const preview = op.preview.replace('[NOME]', c.nome);
+      const div = document.createElement('div');
+      div.className = 'wpp-option';
+      div.innerHTML = `
+        <div class="wpp-option-tag">${op.tag}</div>
+        <div class="wpp-option-title">${op.titulo}</div>
+        <div class="wpp-option-preview">${preview}</div>
+        <button class="btn-enviar-wpp" style="margin-top:.75rem" onclick="enviarWpp('${c.whatsapp}', \`${escapar(preview)}\`)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          Enviar esta mensagem
+        </button>
+      `;
+      container.appendChild(div);
+    });
+
+    document.getElementById('modalWpp').classList.add('show');
   }
 
-  document.getElementById('gestorSenha').addEventListener('keydown', e => {
-    if (e.key === 'Enter') acessarGestor();
-  });
+  function enviarWpp(num, msg) {
+    window.open(`https://wa.me/55${num}?text=${encodeURIComponent(msg)}`, '_blank');
+    fecharModal('modalWpp');
+  }
+
+  function fecharModal(id) {
+    document.getElementById(id).classList.remove('show');
+    clienteEditando = null;
+  }
+
+  function escapar(s) {
+    return s.replace(/`/g,'\\`').replace(/\$/g,'\\$').replace(/'/g,"\\'");
+  }
 </script>
 </body>
 </html>
